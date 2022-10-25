@@ -8,6 +8,15 @@ LinkedList::LinkedList(){
     head= NULL;
     tail= NULL;
 }
+LinkedList::~LinkedList(){
+    node * tmp=NULL;
+    while(head!=NULL)
+    {
+     tmp =head;
+     head = head->next;
+    delete tmp;
+    }
+}
 void LinkedList::AddNode(int n){
     node *tmp = new node;
     tmp-> data = n;
@@ -21,49 +30,80 @@ void LinkedList::AddNode(int n){
         tail = tail->next;
     }
 };
+/*
+void LinkedList::DeleteNode(node *head, int key){
 
-void LinkedList::DeleteNode(node &head, int key){
+    node *tmp = this->head;
+    node *prev= NULL;
 
-    node *tmp = &head;
-    node *prev= nullptr;
-
-    while(tmp->next!=nullptr){
+    while(tmp->next!=NULL){
 
         if (tmp->data==key){
+
                 prev->next = tmp->next;
-                if(tmp == &head && prev==nullptr)
-                    head = *tmp->next;
+
+                if(tmp == this->head && prev==NULL)
+                    this->head = tmp->next;
                 else
-                    head = *prev;
+                    this->head = prev;
 
             delete tmp;
+            return;
 
         }
+
         prev=tmp;
         tmp=tmp->next;
     }
 
 
 };
+*/
+void LinkedList::DeleteNode(node** h, int key)
+{
+    node* temp = *h;
+    node* prev = NULL;
 
-node* LinkedList::Transfer(vector<int> v){
+    if (temp != NULL && temp->data == key)
+    {
+        *h = temp->next;
+        delete temp;
+        return;
+    }
+      else
+    {
+    while (temp != NULL && temp->data != key)
+    {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    if (temp == NULL)
+        return;
+
+    prev->next = temp->next;
+    delete temp;
+    }
+}
+LinkedList LinkedList::Transfer(vector<int> v){
     LinkedList tmp;
 
     for(int i : v)
     {
         tmp.AddNode(i);
     }
-    return tmp.head;
+    return tmp;
 
 }
-int LinkedList::Sum(node &head){
+int LinkedList::Sum(node **head){
     int sum=0;
-    node tmp = head;
-    while(tmp.next!=nullptr)
-    {
-        sum+=head.data;
-        tmp=*tmp.next;
-    }
+    node *a = *head;
+        while (a!= NULL){
+            sum = a->data;
+            cout<<"sum: "+sum<<endl;
+            a = a-> next;
+        }
+
     return sum;
 }
 
@@ -90,6 +130,20 @@ vector<int> insertAfter(int num1, int num2, vector<int> v){
 };
 
 int main() {
+
+    LinkedList *f = new LinkedList();
+    cout<<"---------------LinkedList----------------"<<endl;
+    f->AddNode(3);
+    f->AddNode(4);
+    f->AddNode(3);
+    f->print(f->head);
+    f->DeleteNode(&f->head,4);
+    f->print(f->head);
+
+
+    cout<<"----------------Vector------------------"<<endl;
+
+
     vector<int> v;
     int n;
     int number;
@@ -100,8 +154,8 @@ int main() {
         v.push_back(number);
     }
 
-    for(int i : v)
-    cout << "i = " << i << endl;
+    //for(int i : v)
+    //cout << "i = " << i << endl;
 
 
     v =insertAfter(2,3,v);

@@ -6,14 +6,14 @@ struct node{
     struct node *next;
 };
 class LinkedList{
-private:
-    node *head, *tail;
 public:
+    node *head, *tail;
+
     LinkedList();
+    ~LinkedList();
     void AddNode(int n);
-    void RemoveNode(int n);
-    void DeleteNode(node &head, int key);
+    void DeleteNode(node **head, int key);
     void print (node *head );
-    int Sum(node &head);
-    node* Transfer(vector<int> v);
+    int Sum(node **head);
+    LinkedList Transfer(vector<int> v);
 };
